@@ -13,10 +13,17 @@ public:
 
 signals:
 
-public slots:
+private slots:
+    void moveSnake();
 
 private:
     virtual void paintEvent(QPaintEvent *);
+
+    int x, y;
+    int dir;
+
+    QTimer *timer;
+    void endGame();
 
     int cellSize() { return 10; }
     Field field;
