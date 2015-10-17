@@ -6,10 +6,11 @@
 
 Widget::Widget(QWidget *parent) : QWidget(parent)
 {
-    x=5;
-    y=5;
-    dir = Qt::Key_Up;
-    field.setCell(x, y, Field::Snake);
+    QPoint p(1, 1);
+    snake.enqueue(p);
+    length = 1;
+    dir = Qt::Key_Right;
+    field.setCell(p.x(), p.y(), Field::Snake);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), SLOT(moveSnake()));
     timer->start(333);
@@ -18,19 +19,34 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 
 void Widget::moveSnake()
 {
-    field.setCell(x, y, Field::Empty);
+    if (snake.size() <= length) {
+        QPoint p = snake.back();
+        switch (dir) {
+        case Qt::Key_Right: p.rx()++; break;
+        case Qt::Key_Left: p.rx()--; break;
+        case Qt::Key_Down: p.ry()++; break;
+        case Qt::Key_Up: p.ry()--; break;
+        }
 
-    switch (dir) {
-    case Qt::Key_Right: x++; break;
-    case Qt::Key_Left: x--; break;
-    case Qt::Key_Down: y++; break;
-    case Qt::Key_Up: y--; break;
+        switch(field.getCell(p.x(), p.y())) {
+        case Field::Snake:
+        case Field::Wall:
+            endGame();
+            return;
+        case Field::Food:
+            length++;
+            break;
+        }
+
+        snake.enqueue(p);
+        field.setCell(p.x(), p.y(), Field::Snake);
     }
 
-    if (field.getCell(x, y) == Field::Wall) {
-        endGame();
+    if (snake.size() > length) {
+        QPoint p = snake.dequeue();
+        field.setCell(p.x(), p.y(), Field::Empty);
     }
-    field.setCell(x, y, Field::Snake);
+
     update();
 }
 

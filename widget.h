@@ -3,6 +3,7 @@
 
 #include "field.h"
 
+#include <QQueue>
 #include <QWidget>
 
 class Widget : public QWidget
@@ -20,8 +21,9 @@ private:
     virtual void paintEvent(QPaintEvent *);
     virtual void keyPressEvent(QKeyEvent *e);
 
-    int x, y;
     int dir;
+    QQueue<QPoint> snake;
+    int length;
 
     QTimer *timer;
     void endGame();
