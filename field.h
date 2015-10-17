@@ -17,6 +17,7 @@ public:
     void setCell(int x, int y, Cell val);
 
 private:
+    void placeFood();
     QVector<Cell> cells;
 };
 
