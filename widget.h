@@ -18,6 +18,7 @@ private slots:
 
 private:
     virtual void paintEvent(QPaintEvent *);
+    virtual void keyPressEvent(QKeyEvent *e);
 
     int x, y;
     int dir;

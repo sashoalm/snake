@@ -1,5 +1,6 @@
 #include "widget.h"
 
+#include <QKeyEvent>
 #include <QPainter>
 #include <QTimer>
 
@@ -12,6 +13,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), SLOT(moveSnake()));
     timer->start(333);
+    setFocusPolicy(Qt::WheelFocus);
 }
 
 void Widget::moveSnake()
@@ -41,6 +43,20 @@ void Widget::paintEvent(QPaintEvent *)
             painter.fillRect(xx*cellSize(), yy*cellSize(), cellSize(), cellSize(), cols[field.getCell(xx, yy)]);
         }
     }
+}
+
+void Widget::keyPressEvent(QKeyEvent *e)
+{
+    switch (e->key()) {
+    case Qt::Key_Right:
+    case Qt::Key_Left:
+    case Qt::Key_Down:
+    case Qt::Key_Up:
+        dir = e->key();
+        break;
+    }
+
+    QWidget::keyPressEvent(e);
 }
 
 void Widget::endGame()
