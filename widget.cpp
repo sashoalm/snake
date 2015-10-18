@@ -4,13 +4,9 @@
 #include <QPainter>
 #include <QTimer>
 
-Widget::Widget(QWidget *parent) : QWidget(parent)
+Widget::Widget(QWidget *parent) : QWidget(parent), snake(QPoint(1,1), Qt::Key_Right)
 {
-    QPoint p(1, 1);
-    snake.enqueue(p);
-    length = 1;
-    dir = Qt::Key_Right;
-    field.setCell(p, Field::Snake);
+    field.setCell(QPoint(1,1), Field::Snake);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), SLOT(moveSnake()));
     timer->start(333);
@@ -19,32 +15,24 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 
 void Widget::moveSnake()
 {
-    if (snake.size() <= length) {
-        QPoint p = snake.back();
-        switch (dir) {
-        case Qt::Key_Right: p.rx()++; break;
-        case Qt::Key_Left: p.rx()--; break;
-        case Qt::Key_Down: p.ry()++; break;
-        case Qt::Key_Up: p.ry()--; break;
-        }
-
-        switch(field.getCell(p)) {
-        case Field::Snake:
-        case Field::Wall:
-            endGame();
-            return;
-        case Field::Food:
-            length++;
-            break;
-        }
-
-        snake.enqueue(p);
-        field.setCell(p, Field::Snake);
+    if (!snake.isGrowing()) {
+        field.setCell(snake.tail(), Field::Empty);
     }
 
-    if (snake.size() > length) {
-        field.setCell(snake.dequeue(), Field::Empty);
+    snake.move();
+
+    // See if the snake hit anything.
+    switch(field.getCell(snake.head())) {
+    case Field::Snake:
+    case Field::Wall:
+        endGame();
+        return;
+    case Field::Food:
+        snake.grow();
+        break;
     }
+
+    field.setCell(snake.head(), Field::Snake);
 
     update();
 }
@@ -67,7 +55,7 @@ void Widget::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Left:
     case Qt::Key_Down:
     case Qt::Key_Up:
-        dir = e->key();
+        snake.setDirection(e->key());
         break;
     }
 

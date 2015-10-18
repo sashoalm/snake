@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     widget.cpp \
-    field.cpp
+    field.cpp \
+    snake.cpp
 
 HEADERS  += mainwindow.h \
     widget.h \
-    field.h
+    field.h \
+    snake.h
 
 FORMS    += mainwindow.ui

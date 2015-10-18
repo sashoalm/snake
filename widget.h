@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include "field.h"
+#include "snake.h"
 
 #include <QQueue>
 #include <QWidget>
@@ -21,15 +22,12 @@ private:
     virtual void paintEvent(QPaintEvent *);
     virtual void keyPressEvent(QKeyEvent *e);
 
-    int dir;
-    QQueue<QPoint> snake;
-    int length;
-
     QTimer *timer;
     void endGame();
 
     int cellSize() { return 10; }
     Field field;
+    Snake snake;
 };
 
 #endif // WIDGET_H
