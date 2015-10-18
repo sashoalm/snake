@@ -20,8 +20,8 @@ public:
     void setDirection(Direction direction);
 
 private:
-    Direction direction;
     QQueue<QPoint> body;
+    QQueue<Direction> directions;
     int targetLength;
 };
 

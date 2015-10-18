@@ -3,7 +3,7 @@
 Snake::Snake(const QPoint &startPos, Direction direction)
 {
     body.enqueue(startPos);
-    this->direction = direction;
+    directions.enqueue(direction);
     targetLength = 1;
 }
 
@@ -14,9 +14,13 @@ Snake::~Snake()
 
 void Snake::move()
 {
+    if (directions.size() > 1) {
+        directions.dequeue();
+    }
+
     // Move head.
     QPoint p = head();
-    switch (direction) {
+    switch (directions.head()) {
     case Right: p.rx()++; break;
     case Left: p.rx()--; break;
     case Down: p.ry()++; break;
@@ -33,7 +37,7 @@ void Snake::move()
 void Snake::setDirection(Snake::Direction direction)
 {
     static const Snake::Direction oppositeOf[] = { Right, Left, Down, Up };
-    if (direction != oppositeOf[this->direction]) {
-        this->direction = direction;
+    if (direction != directions.back() && direction != oppositeOf[directions.back()]) {
+        directions.enqueue(direction);
     }
 }
