@@ -10,7 +10,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     snake.enqueue(p);
     length = 1;
     dir = Qt::Key_Right;
-    field.setCell(p.x(), p.y(), Field::Snake);
+    field.setCell(p, Field::Snake);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), SLOT(moveSnake()));
     timer->start(333);
@@ -28,7 +28,7 @@ void Widget::moveSnake()
         case Qt::Key_Up: p.ry()--; break;
         }
 
-        switch(field.getCell(p.x(), p.y())) {
+        switch(field.getCell(p)) {
         case Field::Snake:
         case Field::Wall:
             endGame();
@@ -39,12 +39,11 @@ void Widget::moveSnake()
         }
 
         snake.enqueue(p);
-        field.setCell(p.x(), p.y(), Field::Snake);
+        field.setCell(p, Field::Snake);
     }
 
     if (snake.size() > length) {
-        QPoint p = snake.dequeue();
-        field.setCell(p.x(), p.y(), Field::Empty);
+        field.setCell(snake.dequeue(), Field::Empty);
     }
 
     update();
