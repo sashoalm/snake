@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QTimer>
 
-Widget::Widget(QWidget *parent) : QWidget(parent), snake(QPoint(1,1), Qt::Key_Right)
+Widget::Widget(QWidget *parent) : QWidget(parent), snake(QPoint(1,1), Snake::Right)
 {
     field.setCell(QPoint(1,1), Field::Snake);
     timer = new QTimer(this);
@@ -51,12 +51,10 @@ void Widget::paintEvent(QPaintEvent *)
 void Widget::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key()) {
-    case Qt::Key_Right:
-    case Qt::Key_Left:
-    case Qt::Key_Down:
-    case Qt::Key_Up:
-        snake.setDirection(e->key());
-        break;
+    case Qt::Key_Right: snake.setDirection(Snake::Right); break;
+    case Qt::Key_Left: snake.setDirection(Snake::Left); break;
+    case Qt::Key_Down: snake.setDirection(Snake::Down); break;
+    case Qt::Key_Up: snake.setDirection(Snake::Up); break;
     }
 
     QWidget::keyPressEvent(e);

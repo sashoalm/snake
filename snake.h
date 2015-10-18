@@ -7,7 +7,9 @@
 class Snake
 {
 public:
-    Snake(const QPoint &startPos, int direction);
+    enum Direction { Left, Right, Up, Down };
+
+    Snake(const QPoint &startPos, Direction direction);
     ~Snake();
 
     QPoint tail() { return body.front(); }
@@ -15,10 +17,10 @@ public:
     bool isGrowing() { return targetLength > body.size(); }
     void grow() { targetLength++; }
     void move();
-    void setDirection(int direction) { this->direction = direction; }
+    void setDirection(Direction direction) { this->direction = direction; }
 
 private:
-    int direction;
+    Direction direction;
     QQueue<QPoint> body;
     int targetLength;
 };
