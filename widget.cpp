@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), snake(QPoint(1,1), Snake::Rig
     field.setCell(QPoint(1,1), Field::Snake);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), SLOT(moveSnake()));
-    timer->start(333);
+    timer->start(111);
     setFocusPolicy(Qt::WheelFocus);
 }
 
