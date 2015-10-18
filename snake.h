@@ -17,7 +17,7 @@ public:
     bool isGrowing() { return targetLength > body.size(); }
     void grow() { targetLength++; }
     void move();
-    void setDirection(Direction direction) { this->direction = direction; }
+    void setDirection(Direction direction);
 
 private:
     Direction direction;

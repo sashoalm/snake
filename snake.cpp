@@ -29,3 +29,11 @@ void Snake::move()
         body.dequeue();
     }
 }
+
+void Snake::setDirection(Snake::Direction direction)
+{
+    static const Snake::Direction oppositeOf[] = { Right, Left, Down, Up };
+    if (direction != oppositeOf[this->direction]) {
+        this->direction = direction;
+    }
+}
