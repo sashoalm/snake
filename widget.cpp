@@ -1,6 +1,8 @@
 #include "widget.h"
 
+#include <QApplication>
 #include <QKeyEvent>
+#include <QMessageBox>
 #include <QPainter>
 #include <QTimer>
 
@@ -27,7 +29,7 @@ void Widget::moveSnake()
     switch(field.getCell(snake.head())) {
     case Field::Snake:
     case Field::Wall:
-        endGame();
+        endGame("You lost.");
         return;
     case Field::Food:
         snake.grow();
@@ -36,6 +38,10 @@ void Widget::moveSnake()
 
     field.setCell(snake.head(), Field::Snake);
     updateCell(snake.head());
+
+    if (!field.foodLeft()) {
+        endGame("You won!");
+    }
 }
 
 void Widget::paintEvent(QPaintEvent *e)
@@ -74,9 +80,10 @@ void Widget::updateCell(const QPoint &p)
     update(p.x() * cellSize(), p.y() * cellSize(), cellSize(), cellSize());
 }
 
-void Widget::endGame()
+void Widget::endGame(const QString &text)
 {
     delete timer;
-    close();
+    QMessageBox::information(this, "", text);
+    QApplication::instance()->quit();
 }
 

@@ -17,6 +17,7 @@ Field::Field()
         setCell(width()-1, ii, Wall);
     }
 
+    mFoodLeft = 0;
     for (int ii = 0; ii < 10; ++ii) {
         placeFood();
     }
@@ -44,7 +45,11 @@ Field::Cell Field::getCell(int x, int y)
 
 void Field::setCell(int x, int y, Field::Cell val)
 {
-    cells[x+y*width()] = val;
+    Cell &cell = cells[x+y*width()];
+    if (cell == Food && val != Food) {
+        mFoodLeft--;
+    }
+    cell = val;
 }
 
 void Field::placeFood()
@@ -62,5 +67,7 @@ void Field::placeFood()
             break;
         }
     }
+
+    mFoodLeft++;
 }
 

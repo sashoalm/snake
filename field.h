@@ -19,7 +19,10 @@ public:
     Cell getCell(const QPoint &p) { return getCell(p.x(), p.y()); }
     void setCell(const QPoint &p, Cell val) { setCell(p.x(), p.y(), val); }
 
+    int foodLeft() { return mFoodLeft; }
+
 private:
+    int mFoodLeft;
     void placeFood();
     QVector<Cell> cells;
 };

@@ -25,7 +25,7 @@ private:
     void updateCell(const QPoint &p);
 
     QTimer *timer;
-    void endGame();
+    void endGame(const QString &text);
 
     int cellSize() { return 10; }
     Field field;
