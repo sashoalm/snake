@@ -2,14 +2,21 @@
 
 Snake::Snake(const QPoint &startPos, Direction direction)
 {
-    body.enqueue(startPos);
-    directions.enqueue(direction);
-    targetLength = 1;
+    reset(startPos, direction);
 }
 
 Snake::~Snake()
 {
 
+}
+
+void Snake::reset(const QPoint &startPos, Snake::Direction direction)
+{
+    body.clear();
+    directions.clear();
+    body.enqueue(startPos);
+    directions.enqueue(direction);
+    targetLength = 1;
 }
 
 void Snake::move()

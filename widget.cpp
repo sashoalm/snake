@@ -8,12 +8,13 @@
 
 Widget::Widget(QWidget *parent) : QWidget(parent), snake(QPoint(1,1), Snake::Right)
 {
-    field.setCell(QPoint(1,1), Field::Snake);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), SLOT(moveSnake()));
-    timer->start(111);
+    timer->setInterval(111);
     setFocusPolicy(Qt::WheelFocus);
     setFixedSize(field.width()*cellSize(), field.height()*cellSize());
+    field.setCell(QPoint(1,1), Field::Snake);
+    timer->start();
 }
 
 void Widget::moveSnake()
@@ -82,8 +83,20 @@ void Widget::updateCell(const QPoint &p)
 
 void Widget::endGame(const QString &text)
 {
-    delete timer;
-    QMessageBox::information(this, "", text);
-    QApplication::instance()->quit();
+    timer->stop();
+    if (QMessageBox::Yes == QMessageBox::information(this, "Game over.", text + " New game?", QMessageBox::Yes|QMessageBox::No)) {
+        newGame();
+    } else {
+        QApplication::instance()->quit();
+    }
+}
+
+void Widget::newGame()
+{
+    snake.reset(QPoint(1,1), Snake::Right);
+    field.reset();
+    field.setCell(QPoint(1,1), Field::Snake);
+    timer->start();
+    update();
 }
 

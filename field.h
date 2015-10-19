@@ -13,6 +13,8 @@ public:
     int width();
     int height();
 
+    void reset();
+
     enum Cell { Empty, Wall, Food, Snake };
     Cell getCell(int x, int y);
     void setCell(int x, int y, Cell val);

@@ -4,6 +4,26 @@
 
 Field::Field()
 {
+    reset();
+}
+
+Field::~Field()
+{
+
+}
+
+int Field::width()
+{
+    return 20;
+}
+
+int Field::height()
+{
+    return 20;
+}
+
+void Field::reset()
+{
     cells.resize(width()*height());
     cells.fill(Empty);
 
@@ -21,21 +41,6 @@ Field::Field()
     for (int ii = 0; ii < 10; ++ii) {
         placeFood();
     }
-}
-
-Field::~Field()
-{
-
-}
-
-int Field::width()
-{
-    return 20;
-}
-
-int Field::height()
-{
-    return 20;
 }
 
 Field::Cell Field::getCell(int x, int y)

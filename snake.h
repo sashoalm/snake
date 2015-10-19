@@ -12,6 +12,8 @@ public:
     Snake(const QPoint &startPos, Direction direction);
     ~Snake();
 
+    void reset(const QPoint &startPos, Direction direction);
+
     QPoint tail() { return body.front(); }
     QPoint head() { return body.back(); }
     bool isGrowing() { return targetLength > body.size(); }
