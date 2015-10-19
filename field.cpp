@@ -1,5 +1,7 @@
 #include "field.h"
 
+#include <QTime>
+
 Field::Field()
 {
     cells.resize(width()*height());
@@ -47,6 +49,11 @@ void Field::setCell(int x, int y, Field::Cell val)
 
 void Field::placeFood()
 {
+    static bool seeded = false;
+    if (!seeded) {
+        qsrand(QTime::currentTime().msecsSinceStartOfDay());
+    }
+
     while (1) {
         int x = qrand()%width();
         int y = qrand()%height();
