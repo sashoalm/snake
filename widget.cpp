@@ -18,6 +18,7 @@ void Widget::moveSnake()
 {
     if (!snake.isGrowing()) {
         field.setCell(snake.tail(), Field::Empty);
+        updateCell(snake.tail());
     }
 
     snake.move();
@@ -34,17 +35,24 @@ void Widget::moveSnake()
     }
 
     field.setCell(snake.head(), Field::Snake);
-
-    update();
+    updateCell(snake.head());
 }
 
-void Widget::paintEvent(QPaintEvent *)
+void Widget::paintEvent(QPaintEvent *e)
 {
     QPainter painter(this);
     Qt::GlobalColor cols[] = { Qt::blue, Qt::red, Qt::yellow, Qt::green };
-    for (int xx = 0; xx < field.width(); ++xx) {
-        for (int yy = 0; yy < field.height(); ++yy) {
-            painter.fillRect(xx*cellSize(), yy*cellSize(), cellSize(), cellSize(), cols[field.getCell(xx, yy)]);
+
+    foreach (const QRect &r, e->region().rects()) {
+        int ll = r.left() / cellSize();
+        int tt = r.top() / cellSize();
+        int rr = (r.left() + r.width()) / cellSize();
+        int bb = (r.top() + r.height()) / cellSize();
+
+        for (int xx = ll; xx < rr; ++xx) {
+            for (int yy = tt; yy < bb; ++yy) {
+                painter.fillRect(xx*cellSize(), yy*cellSize(), cellSize(), cellSize(), cols[field.getCell(xx, yy)]);
+            }
         }
     }
 }
@@ -59,6 +67,11 @@ void Widget::keyPressEvent(QKeyEvent *e)
     }
 
     QWidget::keyPressEvent(e);
+}
+
+void Widget::updateCell(const QPoint &p)
+{
+    update(p.x() * cellSize(), p.y() * cellSize(), cellSize(), cellSize());
 }
 
 void Widget::endGame()

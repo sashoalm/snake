@@ -19,8 +19,10 @@ private slots:
     void moveSnake();
 
 private:
-    virtual void paintEvent(QPaintEvent *);
+    virtual void paintEvent(QPaintEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
+
+    void updateCell(const QPoint &p);
 
     QTimer *timer;
     void endGame();
