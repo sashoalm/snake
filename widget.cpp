@@ -11,6 +11,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), snake(QPoint(1,1), Snake::Rig
     connect(timer, SIGNAL(timeout()), SLOT(moveSnake()));
     timer->start(111);
     setFocusPolicy(Qt::WheelFocus);
+    setFixedSize(field.width()*cellSize(), field.height()*cellSize());
 }
 
 void Widget::moveSnake()
