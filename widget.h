@@ -15,6 +15,9 @@ public:
 
 signals:
 
+public slots:
+    void newGame();
+
 private slots:
     void moveSnake();
 
@@ -26,8 +29,6 @@ private:
 
     QTimer *timer;
     void endGame(const QString &text);
-
-    void newGame();
 
     int cellSize() { return 10; }
     Field field;
