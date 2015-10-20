@@ -76,6 +76,16 @@ void Widget::keyPressEvent(QKeyEvent *e)
     QWidget::keyPressEvent(e);
 }
 
+void Widget::focusInEvent(QFocusEvent *)
+{
+    timer->start();
+}
+
+void Widget::focusOutEvent(QFocusEvent *)
+{
+    timer->stop();
+}
+
 void Widget::updateCell(const QPoint &p)
 {
     update(p.x() * cellSize(), p.y() * cellSize(), cellSize(), cellSize());

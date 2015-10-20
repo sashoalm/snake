@@ -24,6 +24,8 @@ private slots:
 private:
     virtual void paintEvent(QPaintEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
+    virtual void focusInEvent(QFocusEvent *);
+    virtual void focusOutEvent(QFocusEvent *);
 
     void updateCell(const QPoint &p);
 
