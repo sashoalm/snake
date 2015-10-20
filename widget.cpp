@@ -84,7 +84,7 @@ void Widget::updateCell(const QPoint &p)
 void Widget::endGame(const QString &text)
 {
     timer->stop();
-    if (QMessageBox::Yes == QMessageBox::information(this, "Game over.", text + " New game?", QMessageBox::Yes|QMessageBox::No)) {
+    if (QMessageBox::Yes == QMessageBox::question(this, "Game over.", text + " New game?", QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes)) {
         newGame();
     } else {
         QApplication::instance()->quit();
