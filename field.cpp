@@ -62,6 +62,7 @@ void Field::placeFood()
     static bool seeded = false;
     if (!seeded) {
         qsrand(QTime::currentTime().msecsSinceStartOfDay());
+        seeded = true;
     }
 
     while (1) {
